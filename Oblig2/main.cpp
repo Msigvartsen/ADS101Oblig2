@@ -24,7 +24,8 @@ int main()
     intNode->insert(9);
 
     intNode->inOrderTraversal();
-    intNode->remove(3);
+
+    intNode->remove(8);
     intNode->inOrderTraversal();
     return 0;
 }
