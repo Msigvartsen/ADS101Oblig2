@@ -29,7 +29,7 @@ public:
     void postOrderTraversal();
     void remove(T data);
     void findData(T data);
-    TreeNode<T> *minValue(bool rightSub, bool &test);
+    TreeNode<T> *minValue(bool rightSub, bool &checkPath);
 
 
 };
@@ -126,14 +126,14 @@ void TreeNode<T>::remove(T data)
     if(current->getLeftChild() || current->getRightChild())
     {
         TreeNode<T>* tempNode;
-        bool test{false};
+        bool checkPath{false};
         if(current->getData() < m_data)
         {
             std::cout << "Copy value :::" << tempNode->getData() << "\n";
-            tempNode = current->minValue(false,test);
+            tempNode = current->minValue(false,checkPath);
             current->m_data = tempNode->getData();
             std::cout << "Copy value :::" << tempNode->getData() << "\n";
-            if(tempNode->m_parent->getRightChild() && tempNode->m_parent->getRightChild())
+            if(checkPath)
             {
                 tempNode->m_parent->setRightChild(nullptr);
             }
@@ -145,11 +145,11 @@ void TreeNode<T>::remove(T data)
         }
         if(current->getData() >= m_data)
         {
-            tempNode = current->minValue(true,test);
+            tempNode = current->minValue(true,checkPath);
             std::cout << "Copy value <" << tempNode->getData() << "\n";
             current->m_data = tempNode->getData();
 
-            if(tempNode->m_parent->getLeftChild() && tempNode->m_parent->getRightChild())
+            if(checkPath)
             {
                 tempNode->m_parent->setLeftChild(nullptr);
             }
@@ -194,7 +194,7 @@ void TreeNode<T>::findData(T data)
 }
 
 template<class T>
-TreeNode<T>* TreeNode<T>::minValue(bool rightSub,bool &test)
+TreeNode<T>* TreeNode<T>::minValue(bool rightSub,bool &checkPath)
 {
 
     TreeNode<T>*  tmpNode;
@@ -210,11 +210,11 @@ TreeNode<T>* TreeNode<T>::minValue(bool rightSub,bool &test)
             {
                 if(!counter)
                 {
-                    test = false;
+                    checkPath = false;
                 }
                 else
                 {
-                    test = true;
+                    checkPath = true;
                 }
                 return tmpNode;
             }
@@ -238,11 +238,11 @@ TreeNode<T>* TreeNode<T>::minValue(bool rightSub,bool &test)
             {
                 if(!counter)
                 {
-                    test = false;
+                    checkPath = false;
                 }
                 else
                 {
-                    test = true;
+                    checkPath = true;
                 }
                 return tmpNode;
             }
