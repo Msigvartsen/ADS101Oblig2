@@ -16,9 +16,8 @@ int main()
 
     intNode->inOrderTraversal();
     int count{0};
-    //intNode->nodeCount(count);
 
-    intNode->remove(2);
+    intNode->remove(4);
     intNode->nodeCount(count);
     std::cout << "NODE COUNTER:: << " << count << "\n";
     intNode->inOrderTraversal();
