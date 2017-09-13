@@ -4,6 +4,7 @@
 int main()
 {
 
+    //TreeNode<int>* intNode;
     TreeNode<int>* intNode = new TreeNode<int>(4);
     intNode->insert(2);
     intNode->insert(3);
@@ -13,13 +14,15 @@ int main()
     intNode->insert(8);
     intNode->insert(7);
     intNode->insert(9);
+    intNode->insert(11);
+    intNode->insert(10);
 
     intNode->inOrderTraversal();
-    int count{0};
 
-    intNode->remove(4);
-    intNode->nodeCount(count);
-    std::cout << "NODE COUNTER:: << " << count << "\n";
+    intNode->removeNode(11);
+    //intNode->removeNode(10);
     intNode->inOrderTraversal();
+
+
     return 0;
 }
