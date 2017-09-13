@@ -60,7 +60,7 @@ TreeNode<T>::TreeNode(T data,TreeNode* parent,TreeNode* leftChild, TreeNode* rig
 template<class T>
 void TreeNode<T>::print()
 {
-    std::cout << m_data << "|";
+    std::cout << m_data << "-";
 }
 //--------------------------------------------------------------------------------------------------
 template<class T>
