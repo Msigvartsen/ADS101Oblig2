@@ -34,12 +34,11 @@ public:
     void treeDepth(int &leftDepth, int &rightDepth);
     TreeNode<T>* minValue();
 
-
 };
 
-}
 
-using namespace ADS101;
+
+
 //--------------------------------------------------------------------------------------------------
 template<class T>
 TreeNode<T>::TreeNode()
@@ -53,9 +52,7 @@ TreeNode<T>::TreeNode(T data,TreeNode* parent,TreeNode* leftChild, TreeNode* rig
     m_leftChild{leftChild},
     m_rightChild{rightChild},
     m_parent{parent}
-{
-
-}
+{}
 //--------------------------------------------------------------------------------------------------
 template<class T>
 void TreeNode<T>::print()
@@ -90,9 +87,8 @@ void TreeNode<T>::insert(T data)
             m_rightChild->m_parent = this;
         }
     }
-
-
 }
+//--------------------------------------------------------------------------------------------------
 template<class T>
 TreeNode<T>* TreeNode<T>::foundNodeptr;
 //--------------------------------------------------------------------------------------------------
@@ -104,25 +100,22 @@ void TreeNode<T>::removeNode(T data)
     findData(data,foundNode);
     TreeNode<T>* current = foundNodeptr;
     TreeNode<T>* parent = current->getParent();
-    std::cout << "Current Remove node: " << current->getData() << "\n";
-
 
     //Delete Leaf node
     if(!current->getRightChild() && !current->getLeftChild())
     {
-        std::cout << "Deleting leaf node\n";
-
         if(parent->getLeftChild() && current->getData() == parent->getLeftChild()->getData())
         {
             parent->setLeftChild(nullptr);
+            current->setParent(nullptr);
             delete current;
             current = nullptr;
         }
 
         else
         {
-            std::cout << "Deleting right child";
             parent->setRightChild(nullptr);
+            current->setParent(nullptr);
             delete current;
             current = nullptr;
         }
@@ -130,13 +123,11 @@ void TreeNode<T>::removeNode(T data)
     }
 
     //Delete node with children
-    if(current->getLeftChild() || current->getRightChild())
+    else if(current->getLeftChild() || current->getRightChild())
     {
         //Find node with minValue from current subtree, set current data to minValue data, then delete node with minValue.
         TreeNode<T>* tempNode = current->minValue();
         TreeNode<T>* tempParent = tempNode->getParent();
-        std::cout << "Deleting node with children\n";
-        std::cout << "Tempnode with child:: " << tempNode->getData();
         current->m_data = tempNode->getData();
 
         //If minValue node doesnt have children, set parent to nullptr to corresponding node, and delete.
@@ -153,26 +144,31 @@ void TreeNode<T>::removeNode(T data)
             }
             delete tempNode;
             tempNode = nullptr;
-            return;
         }
-
-        /*If tempNode has a right child,
-        reassign pointer from tempNode parent til tempNode right child,
-        before deleting node*/
-
-        if(tempNode->getRightChild())
+        else if(tempNode->getRightChild())
         {
+            /*If tempNode has a right child,
+            reassign pointer from tempNode parent to tempNode right child,
+            and right child's parent to be tempNode's parent. Then delete node*/
             tempParent->setRightChild(tempNode->getRightChild());
+            tempNode->getRightChild()->setParent(tempParent);
+
+            if(tempNode->getLeftChild())
+            {
+                tempParent->setLeftChild(tempNode->getLeftChild());
+                tempNode->getLeftChild()->setParent(tempParent);
+            }
+
             delete tempNode;
             tempNode = nullptr;
         }
+
     }
 }
-
+//--------------------------------------------------------------------------------------------------
 template<class T>
 void TreeNode<T>::findData(T data, bool &foundNode)
 {
-    std::cout << "bool " << foundNode << "\n";
     if(m_data == data)
     {
         foundNode = true;
@@ -187,9 +183,8 @@ void TreeNode<T>::findData(T data, bool &foundNode)
     {
         m_rightChild->findData(data,foundNode);
     }
-
 }
-
+//--------------------------------------------------------------------------------------------------
 template<class T>
 void TreeNode<T>::treeDepth(int &leftDepth, int &rightDepth)
 {
@@ -197,18 +192,14 @@ void TreeNode<T>::treeDepth(int &leftDepth, int &rightDepth)
     {
         leftDepth++;
         m_leftChild->treeDepth(leftDepth,rightDepth);
-
     }
-
     if(m_rightChild)
     {
         rightDepth++;
         m_rightChild->treeDepth(leftDepth,rightDepth);
-
     }
-
 }
-
+//--------------------------------------------------------------------------------------------------
 template<class T>
 void TreeNode<T>::nodeCount(int &count)
 {
@@ -217,13 +208,12 @@ void TreeNode<T>::nodeCount(int &count)
     {
         m_leftChild->nodeCount(count);
     }
-
     if(m_rightChild)
     {
         m_rightChild->nodeCount(count);
     }
 }
-
+//--------------------------------------------------------------------------------------------------
 template<class T>
 TreeNode<T>* TreeNode<T>::minValue()
 {
@@ -245,7 +235,7 @@ TreeNode<T>* TreeNode<T>::minValue()
 
         return tmpNode;
     }
-    else if(tmpNode->getLeftChild())
+    else
     {
         tmpNode = getLeftChild();
         return tmpNode;
@@ -315,8 +305,6 @@ void TreeNode<T>::setParent(TreeNode *parent)
 {
     m_parent = parent;
 }
-
-
 //--------------GETTERS------------------------------------------------------------------------------
 template<class T>
 T TreeNode<T>::getData() const
@@ -363,6 +351,8 @@ TreeNode<T> *TreeNode<T>::getParent() const
     {
         return nullptr;
     }
+}
+
 }
 //--------------------------------------------------------------------------------------------------
 

@@ -4,7 +4,7 @@
 int main()
 {
     std::cout << "----- char binary tree -----\n\n";
-    TreeNode<char>* charNode = new TreeNode<char>('g');
+    ADS101::TreeNode<char>* charNode = new ADS101::TreeNode<char>('g');
     char charArray[9]{'e','f','c','d','a','i','h','k','j'};
     std::cout << "Root of tree: " << charNode->getData() << "\n\n";
     std::cout << "Inserting chars to binary tree from array:\n";
@@ -23,13 +23,16 @@ int main()
     charNode->postOrderTraversal();
 
     std::cout << "\n\n";
-    charNode->insert('l');
-    charNode->insert('m');
-    charNode->removeNode('l');
-    charNode->removeNode('m');
-    charNode->removeNode('a');
-    charNode->removeNode('j');
-    charNode->inOrderTraversal();
+
+    std::cout << "Removing node \'c\'\n";
+    charNode->removeNode('c');
+//    for(int i{0}; i < 9; i++)
+//    {
+//        std::cout << "Deleting node with " << charArray[i] << "\n";
+//        charNode->removeNode(charArray[i]);
+//    }
+//    std::cout << "\n\n";
+//    charNode->inOrderTraversal();
 
 
 
