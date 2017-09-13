@@ -16,10 +16,10 @@ int main()
     intNode->insert(9);
     intNode->insert(11);
     intNode->insert(10);
-
+    intNode->insert(12);
     intNode->inOrderTraversal();
 
-    intNode->removeNode(11);
+    intNode->removeNode(9);
     //intNode->removeNode(10);
     intNode->inOrderTraversal();
 

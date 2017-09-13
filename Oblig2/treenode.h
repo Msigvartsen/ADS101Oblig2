@@ -199,13 +199,52 @@ void TreeNode<T>::removeNode(T data)
         return;
     }
 
-    //Delete node with one or more left childs
-    if(current->getLeftChild() && !current->getRightChild())
+    //Delete node with children
+    if(current->getLeftChild() || current->getRightChild())
     {
         TreeNode<T>* tempNode = current->minVal();
-        std::cout << "Deleting node with left child\n";
-        std::cout << "Tempnode one child " << tempNode->getData();
+        std::cout << "Deleting node with children\n";
+        std::cout << "Tempnode with child:: " << tempNode->getData();
         //Sett current data = temp data, hvis right child sett den til parent, fjern left child / right parent
+        current->m_data = tempNode->getData();
+
+        if(!tempNode->getRightChild() && !tempNode->getLeftChild())
+        {
+
+           if(tempNode->m_parent->getRightChild() && tempNode->m_parent->getRightChild()->getData() == tempNode->getData())
+           {
+               tempNode->m_parent->setRightChild(nullptr);
+           }
+           else
+           {
+               tempNode->m_parent->setLeftChild(nullptr);
+           }
+           return;
+        }
+
+        if(!tempNode->getRightChild())
+        {
+
+            if(tempNode->m_parent->getRightChild()->getData() == tempNode->getData())
+            {
+                tempNode->m_parent->setRightChild(nullptr);
+            }
+            else
+            {
+                tempNode->m_parent->setLeftChild(nullptr);
+            }
+            delete tempNode;
+            tempNode = nullptr;
+        }
+        else
+        {
+            if(tempNode->m_parent->getRightChild()->getData() == tempNode->getData())
+            {
+                tempNode->m_parent->setRightChild(tempNode->getRightChild());
+            }
+        }
+
+
         return;
     }
 }
@@ -436,6 +475,10 @@ TreeNode<T>* TreeNode<T>::getLeftChild() const
     {
         return m_leftChild;
     }
+    else
+    {
+        return nullptr;
+    }
 
 }
 //--------------------------------------------------------------------------------------------------
@@ -445,6 +488,10 @@ TreeNode<T>* TreeNode<T>::getRightChild() const
     if(m_rightChild)
     {
         return m_rightChild;
+    }
+    else
+    {
+        return nullptr;
     }
 
 }
