@@ -31,7 +31,8 @@ public:
     void removeNode(T data);
     void findData(T data, bool &foundNode);
     void nodeCount(int &count);
-    void treeDepth(int &leftDepth, int &rightDepth);
+    void countDepth(int &leftDepth, int &rightDepth);
+    int treeDepth();
     TreeNode<T>* minValue();
 
 };
@@ -186,18 +187,20 @@ void TreeNode<T>::findData(T data, bool &foundNode)
 }
 //--------------------------------------------------------------------------------------------------
 template<class T>
-void TreeNode<T>::treeDepth(int &leftDepth, int &rightDepth)
+int TreeNode<T>::treeDepth()
 {
-    if(m_leftChild)
+    int leftDepth{0};
+    int rightDepth{0};
+    countDepth(leftDepth,rightDepth);
+    if(leftDepth < rightDepth)
     {
-        leftDepth++;
-        m_leftChild->treeDepth(leftDepth,rightDepth);
+        return rightDepth;
     }
-    if(m_rightChild)
+    else
     {
-        rightDepth++;
-        m_rightChild->treeDepth(leftDepth,rightDepth);
+        return leftDepth;
     }
+
 }
 //--------------------------------------------------------------------------------------------------
 template<class T>
@@ -211,6 +214,21 @@ void TreeNode<T>::nodeCount(int &count)
     if(m_rightChild)
     {
         m_rightChild->nodeCount(count);
+    }
+}
+
+template<class T>
+void TreeNode<T>::countDepth(int &leftDepth, int &rightDepth)
+{
+    if(m_leftChild)
+    {
+        leftDepth++;
+        m_leftChild->countDepth(leftDepth,rightDepth);
+    }
+    if(m_rightChild)
+    {
+        rightDepth++;
+        m_rightChild->countDepth(leftDepth,rightDepth);
     }
 }
 //--------------------------------------------------------------------------------------------------
