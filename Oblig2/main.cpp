@@ -25,7 +25,10 @@ int main()
     std::cout << "\n\n";
     charNode->insert('l');
     charNode->insert('m');
-    charNode->removeNode('k');
+    charNode->removeNode('l');
+    charNode->removeNode('m');
+    charNode->removeNode('a');
+    charNode->removeNode('j');
     charNode->inOrderTraversal();
 
 
