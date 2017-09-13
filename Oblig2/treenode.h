@@ -29,16 +29,16 @@ public:
     void preOrderTraversal();
     void postOrderTraversal();
     void removeNode(T data);
+    void clear(T data);
     void findData(T data, bool &foundNode);
     void nodeCount(int &count);
+    void leafCount(int &count);
+    void fullNodeCount(int &count);
     void countDepth(int &leftDepth, int &rightDepth);
     int treeDepth();
     TreeNode<T>* minValue();
 
 };
-
-
-
 
 //--------------------------------------------------------------------------------------------------
 template<class T>
@@ -153,7 +153,7 @@ void TreeNode<T>::removeNode(T data)
             and right child's parent to be tempNode's parent. Then delete node*/
             tempParent->setRightChild(tempNode->getRightChild());
             tempNode->getRightChild()->setParent(tempParent);
-
+            //If tempNode also has a left child, reassign pointers to tempNode parent and vice versa
             if(tempNode->getLeftChild())
             {
                 tempParent->setLeftChild(tempNode->getLeftChild());
@@ -164,6 +164,24 @@ void TreeNode<T>::removeNode(T data)
             tempNode = nullptr;
         }
 
+    }
+}
+
+template<class T>
+void TreeNode<T>::clear(T data)
+{
+    if(m_leftChild)
+    {
+        m_leftChild->clear(data);
+    }
+
+    if(m_rightChild)
+    {
+        m_rightChild->clear(data);
+    }
+    if(m_data != data)
+    {
+        this->removeNode(m_data);
     }
 }
 //--------------------------------------------------------------------------------------------------
@@ -214,6 +232,45 @@ void TreeNode<T>::nodeCount(int &count)
     if(m_rightChild)
     {
         m_rightChild->nodeCount(count);
+    }
+}
+
+template<class T>
+void TreeNode<T>::leafCount(int &count)
+{
+
+    if(m_leftChild)
+    {
+        m_leftChild->leafCount(count);
+    }
+
+    if(!m_leftChild && !m_rightChild)
+    {
+        count++;
+    }
+
+    if(m_rightChild)
+    {
+        m_rightChild->leafCount(count);
+    }
+
+}
+
+template<class T>
+void TreeNode<T>::fullNodeCount(int &count)
+{
+
+    if(m_leftChild)
+    {
+        m_leftChild->leafCount(count);
+    }
+    if(m_leftChild && m_rightChild)
+    {
+        count++;
+    }
+    if(m_rightChild)
+    {
+        m_rightChild->leafCount(count);
     }
 }
 

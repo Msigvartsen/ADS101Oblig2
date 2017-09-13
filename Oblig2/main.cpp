@@ -23,7 +23,11 @@ int main()
     charNode->postOrderTraversal();
     int count{0};
     charNode->nodeCount(count);
-    std::cout << "\n\nNumber of nodes in BinaryTree:" << count << "\n\n";
+    std::cout << "\n\nNumber of nodes in BinaryTree:" << count;
+
+    count = 0;
+    charNode->leafCount(count);
+    std::cout << "\nLeaf count: " << count << "\n\n";
 
     std::cout << "Removing node \'c\'\n";
     charNode->removeNode('c');
@@ -39,28 +43,22 @@ int main()
     charNode->nodeCount(count);
     std::cout << "\n\nNumber of nodes in BinaryTree:" << count << "\n\n";
 
+    count = 0;
+    charNode->leafCount(count);
+    std::cout << "\n\nLeaf count: " << count;
 
 
-
-
-
-
-
-
-//    for(int i{0}; i < 9; i++)
-//    {
-//        std::cout << "Deleting node with " << charArray[i] << "\n";
-//        charNode->removeNode(charArray[i]);
-//    }
-//    std::cout << "\n\n";
-//    charNode->inOrderTraversal();
-
+    std::cout << "Removing all nodes except root..\n";
+    charNode->clear(charNode->getData());
+    std::cout << "InOrder Traversal print:\n";
+    charNode->inOrderTraversal();
+    std::cout << "\n";
 
 
     std::cout << "----- int binary tree -----\n\n";
     ADS101::TreeNode<int>* intNode = new ADS101::TreeNode<int>(6);
     int intArray[9]{4,5,2,3,1,8,7,10,9};
-    std::cout << "Root of tree: " << charNode->getData() << "\n";
+    std::cout << "Root of tree: " << intNode->getData() << "\n";
     std::cout << "\nInserting int to binary tree from array:\n";
     for(int i{0}; i < 9; i++)
     {
@@ -81,6 +79,10 @@ int main()
     intNode->nodeCount(count);
     std::cout << "\n\nNumber of nodes in BinaryTree:" << count << "\n\n";
 
+    count = 0;
+    intNode->leafCount(count);
+    std::cout << "Leaf count: " << count << "\n\n";
+
     std::cout << "Removing node \'4\'\n";
     intNode->removeNode(4);
     std::cout << "InOrder Traversal print:\n";
@@ -97,8 +99,20 @@ int main()
     intNode->inOrderTraversal();
 
     count = 0;
+    intNode->leafCount(count);
+    std::cout << "\n\nLeaf count: " << count;
+
+    count = 0;
     intNode->nodeCount(count);
     std::cout << "\n\nNumber of nodes in BinaryTree:" << count << "\n\n";
+
+    std::cout << "Removing all nodes except root: \n";
+    intNode->clear(intNode->getData());
+    std::cout << "InOrder Traversal print..\n";
+    intNode->inOrderTraversal();
+    std::cout << "\nRoot of Tree: " << intNode->getData() << "\n";
+
+
 
     return 0;
 }
