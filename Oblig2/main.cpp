@@ -23,6 +23,10 @@ int main()
     charNode->postOrderTraversal();
 
     std::cout << "\n\n";
+    charNode->insert('l');
+    charNode->insert('m');
+    charNode->removeNode('k');
+    charNode->inOrderTraversal();
 
 
 

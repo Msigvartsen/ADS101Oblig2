@@ -26,7 +26,6 @@ public:
     void inOrderTraversal();
     void preOrderTraversal();
     void postOrderTraversal();
-    void remove(T data);
     void removeNode(T data);
     TreeNode<T>* findData(T data, bool &foundNode);
     void nodeCount(int &count);
@@ -97,78 +96,6 @@ void TreeNode<T>::insert(T data)
 template<class T>
 TreeNode<T>* TreeNode<T>::foundNodeptr;
 //--------------------------------------------------------------------------------------------------
-template<class T>
-void TreeNode<T>::remove(T data)
-{
-
-    //    findData(data);
-    //    TreeNode<T>* current = foundNodePtr;
-    //    TreeNode<T>* parent = current->m_parent;
-
-    //    std::cout << "current data : " << current->getData();
-
-    //    if(!current->getLeftChild() && !current->getRightChild())
-    //    {
-    //        std::cout << "\nNo Children\n";
-    //        if(parent->getLeftChild()->getData() == current->getData())
-    //        {
-    //            parent->setLeftChild(nullptr);
-    //            current = nullptr;
-    //            delete current;
-    //        }
-    //        else
-    //        {
-    //            parent->setRightChild(nullptr);
-    //            current = nullptr;
-    //            delete current;
-    //        }
-    //        return;
-    //    }
-    //    if(current->getLeftChild() || current->getRightChild())
-    //    {
-    //        TreeNode<T>* tempNode;
-    //        bool checkPath{false};
-    //        //Left SubTree
-    //        if(current->getData() < m_data)
-    //        {
-
-    //            tempNode = current->minValue(false,checkPath);
-    //            std::cout << "Copy value ::" << tempNode->getData() << "\n";
-    //            current->m_data = tempNode->getData();
-
-    //            if(checkPath)
-    //            {
-    //                std::cout << "checkpath true\n";
-    //                tempNode->m_parent->setRightChild(nullptr);
-    //            }
-    //            else
-    //            {
-    //                std::cout << "Copy value ::" << tempNode->getData() << "\n";
-    //                tempNode->m_parent->setLeftChild(nullptr);
-    //            }
-    //        }
-    //        //Right SubTree
-    //        if(current->getData() >= m_data)
-    //        {
-    //            tempNode = current->minValue(true,checkPath);
-    //            std::cout << "Copy value <" << tempNode->getData() << "\n";
-    //            current->m_data = tempNode->getData();
-
-    //            if(checkPath)
-    //            {
-    //                std::cout << "check path:: " << checkPath << "\n";
-    //                tempNode->m_parent->setLeftChild(nullptr);
-    //            }
-    //            else
-    //            {
-    //                tempNode->m_parent->setRightChild(nullptr);
-    //            }
-
-    //        }
-    //        delete tempNode;
-    //        tempNode = nullptr;
-    //    }
-}
 
 template<class T>
 void TreeNode<T>::removeNode(T data)
@@ -202,12 +129,13 @@ void TreeNode<T>::removeNode(T data)
     //Delete node with children
     if(current->getLeftChild() || current->getRightChild())
     {
+        //Find node with minValue from current subtree, set current data to minValue data, then delete node with minValue.
         TreeNode<T>* tempNode = current->minVal();
         std::cout << "Deleting node with children\n";
         std::cout << "Tempnode with child:: " << tempNode->getData();
-        //Sett current data = temp data, hvis right child sett den til parent, fjern left child / right parent
         current->m_data = tempNode->getData();
 
+        //If minValue node doesnt have children, set parent to nullptr to corresponding node, and delete.
         if(!tempNode->getRightChild() && !tempNode->getLeftChild())
         {
 
@@ -219,30 +147,37 @@ void TreeNode<T>::removeNode(T data)
            {
                tempNode->m_parent->setLeftChild(nullptr);
            }
+           delete tempNode;
+           tempNode = nullptr;
            return;
         }
 
-        if(!tempNode->getRightChild())
+        /*If tempNode has a right child,
+        reassign pointer from tempNode parent til tempNode right child,
+        before deleting node*/
+
+        if(tempNode->getRightChild())
         {
 
             if(tempNode->m_parent->getRightChild()->getData() == tempNode->getData())
             {
-                tempNode->m_parent->setRightChild(nullptr);
-            }
-            else
-            {
-                tempNode->m_parent->setLeftChild(nullptr);
-            }
-            delete tempNode;
-            tempNode = nullptr;
-        }
-        else
-        {
-            if(tempNode->m_parent->getRightChild()->getData() == tempNode->getData())
-            {
                 tempNode->m_parent->setRightChild(tempNode->getRightChild());
+                delete tempNode;
+                tempNode = nullptr;
             }
+//            else
+//            {
+//                tempNode->m_parent->setLeftChild(nullptr);
+//            }
+
         }
+//        else
+//        {
+//            if(tempNode->m_parent->getRightChild()->getData() == tempNode->getData())
+//            {
+//                tempNode->m_parent->setRightChild(tempNode->getRightChild());
+//            }
+//        }
 
 
         return;
