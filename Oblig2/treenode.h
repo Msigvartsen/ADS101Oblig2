@@ -34,8 +34,7 @@ public:
     void nodeCount(int &count);
     void leafCount(int &count);
     void fullNodeCount(int &count);
-    void countDepth(int &leftDepth, int &rightDepth);
-    int treeDepth();
+    int treeDepth(int &lDepth, int &rDepth);
     TreeNode<T>* minValue();
 
 };
@@ -112,7 +111,6 @@ void TreeNode<T>::removeNode(T data)
             delete current;
             current = nullptr;
         }
-
         else
         {
             parent->setRightChild(nullptr);
@@ -188,6 +186,7 @@ void TreeNode<T>::clear(T data)
 template<class T>
 void TreeNode<T>::findData(T data, bool &foundNode)
 {
+    //Searches for node containing data sent in. Returns static pointer to the correct node
     if(m_data == data)
     {
         foundNode = true;
@@ -205,19 +204,8 @@ void TreeNode<T>::findData(T data, bool &foundNode)
 }
 //--------------------------------------------------------------------------------------------------
 template<class T>
-int TreeNode<T>::treeDepth()
+int TreeNode<T>::treeDepth(int &lDepth,int &rDepth)
 {
-    int leftDepth{0};
-    int rightDepth{0};
-    countDepth(leftDepth,rightDepth);
-    if(leftDepth < rightDepth)
-    {
-        return rightDepth;
-    }
-    else
-    {
-        return leftDepth;
-    }
 
 }
 //--------------------------------------------------------------------------------------------------
@@ -262,7 +250,7 @@ void TreeNode<T>::fullNodeCount(int &count)
 
     if(m_leftChild)
     {
-        m_leftChild->leafCount(count);
+        m_leftChild->fullNodeCount(count);
     }
     if(m_leftChild && m_rightChild)
     {
@@ -270,24 +258,11 @@ void TreeNode<T>::fullNodeCount(int &count)
     }
     if(m_rightChild)
     {
-        m_rightChild->leafCount(count);
+        m_rightChild->fullNodeCount(count);
     }
 }
 
-template<class T>
-void TreeNode<T>::countDepth(int &leftDepth, int &rightDepth)
-{
-    if(m_leftChild)
-    {
-        leftDepth++;
-        m_leftChild->countDepth(leftDepth,rightDepth);
-    }
-    if(m_rightChild)
-    {
-        rightDepth++;
-        m_rightChild->countDepth(leftDepth,rightDepth);
-    }
-}
+
 //--------------------------------------------------------------------------------------------------
 template<class T>
 TreeNode<T>* TreeNode<T>::minValue()
