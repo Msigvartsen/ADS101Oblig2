@@ -72,10 +72,6 @@ int main()
         intNode->insert(intArray[i]);
     }
 
-    int left{0};
-    int right{0};
-    intNode->getLeftChild()->treeDepth(left,right);
-    std::cout << "left: " << left << " Right: " << right << "\n";
 
     std::cout << "\n\nInOrder Traversal print:\n";
     intNode->inOrderTraversal();
@@ -127,10 +123,7 @@ int main()
     intNode->inOrderTraversal();
     std::cout << "\nRoot of Tree: " << intNode->getData() << "\n";
 
-//    int left{0};
-//    int right{0};
-//    intNode->treeDepth(left,right);
-//    std::cout << "left: " << left << " Right: " << right << "\n";
+
 
     return 0;
 }

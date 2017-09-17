@@ -29,7 +29,7 @@ public:
     void preOrderTraversal();
     void postOrderTraversal();
     void removeNode(T data);
-    void clear(T data);
+    void clear(T rootData);
     void findData(T data, bool &foundNode);
     void nodeCount(int &count);
     void leafCount(int &count);
@@ -72,7 +72,7 @@ void TreeNode<T>::insert(T data)
         else
         {
             m_leftChild = new TreeNode<T>(data);
-            m_leftChild->m_parent = this;
+            m_leftChild->setParent(this);
         }
     }
     else if(data > m_data)
@@ -84,7 +84,7 @@ void TreeNode<T>::insert(T data)
         else
         {
             m_rightChild = new TreeNode<T>(data);
-            m_rightChild->m_parent = this;
+            m_rightChild->setParent(this);
         }
     }
 }
@@ -108,16 +108,15 @@ void TreeNode<T>::removeNode(T data)
         {
             parent->setLeftChild(nullptr);
             current->setParent(nullptr);
-            delete current;
-            current = nullptr;
         }
         else
         {
             parent->setRightChild(nullptr);
             current->setParent(nullptr);
-            delete current;
-            current = nullptr;
         }
+
+        delete current;
+        current = nullptr;
         return;
     }
 
@@ -151,7 +150,8 @@ void TreeNode<T>::removeNode(T data)
             and right child's parent to be tempNode's parent. Then delete node*/
             tempParent->setRightChild(tempNode->getRightChild());
             tempNode->getRightChild()->setParent(tempParent);
-            //If tempNode also has a left child, reassign pointers to tempNode parent and vice versa
+
+            //If tempnode has left child, reassign pointers from parent/leftchild before deleting node.
             if(tempNode->getLeftChild())
             {
                 tempParent->setLeftChild(tempNode->getLeftChild());
@@ -161,23 +161,22 @@ void TreeNode<T>::removeNode(T data)
             delete tempNode;
             tempNode = nullptr;
         }
-
     }
 }
 
 template<class T>
-void TreeNode<T>::clear(T data)
+void TreeNode<T>::clear(T rootData)
 {
     if(m_leftChild)
     {
-        m_leftChild->clear(data);
+        m_leftChild->clear(rootData);
     }
 
     if(m_rightChild)
     {
-        m_rightChild->clear(data);
+        m_rightChild->clear(rootData);
     }
-    if(m_data != data)
+    if(m_data != rootData)
     {
         this->removeNode(m_data);
     }
@@ -207,6 +206,7 @@ template<class T>
 int TreeNode<T>::treeDepth(int &lDepth,int &rDepth)
 {
 
+    return 0;
 }
 //--------------------------------------------------------------------------------------------------
 template<class T>
@@ -222,7 +222,7 @@ void TreeNode<T>::nodeCount(int &count)
         m_rightChild->nodeCount(count);
     }
 }
-
+//---------------------------------------------------------------------------------------------
 template<class T>
 void TreeNode<T>::leafCount(int &count)
 {
@@ -241,9 +241,8 @@ void TreeNode<T>::leafCount(int &count)
     {
         m_rightChild->leafCount(count);
     }
-
 }
-
+//---------------------------------------------------------------------------------------------
 template<class T>
 void TreeNode<T>::fullNodeCount(int &count)
 {
@@ -261,7 +260,6 @@ void TreeNode<T>::fullNodeCount(int &count)
         m_rightChild->fullNodeCount(count);
     }
 }
-
 
 //--------------------------------------------------------------------------------------------------
 template<class T>
@@ -349,7 +347,7 @@ void TreeNode<T>::setRightChild(TreeNode *rightChild)
 {
     m_rightChild = rightChild;
 }
-
+//---------------------------------------------------------------------------------------------
 template<class T>
 void TreeNode<T>::setParent(TreeNode *parent)
 {
@@ -389,7 +387,7 @@ TreeNode<T>* TreeNode<T>::getRightChild() const
     }
 
 }
-
+//---------------------------------------------------------------------------------------------
 template<class T>
 TreeNode<T> *TreeNode<T>::getParent() const
 {
