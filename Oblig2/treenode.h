@@ -1,6 +1,6 @@
 #ifndef TREENODE_H
 #define TREENODE_H
-
+//Magnus Sigvartsen
 namespace ADS101
 {
 

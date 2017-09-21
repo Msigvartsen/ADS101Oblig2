@@ -1,6 +1,6 @@
 #include <iostream>
 #include "treenode.h"
-
+//Magnus Sigvartsen
 int main()
 {
     std::cout << "----- char binary tree -----\n\n";
@@ -122,8 +122,6 @@ int main()
     std::cout << "InOrder Traversal print..\n";
     intNode->inOrderTraversal();
     std::cout << "\nRoot of Tree: " << intNode->getData() << "\n";
-
-
 
     return 0;
 }
